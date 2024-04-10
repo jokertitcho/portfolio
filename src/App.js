@@ -2,7 +2,7 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from "./componants/HomePage"
-import Contact from "./componants/HomePage"
+import Contact from "./componants/Contact"
 
 
 function App() {
