@@ -802,6 +802,10 @@ blockquote {
   width: 20%;
   padding-right: 15px;
 }
+.logo{
+  height: 14rem;
+  border-radius: 50%;
+}
 .navbar-header .logo-container {
   padding: 0 15px;
   float: left;
@@ -837,7 +841,7 @@ blockquote {
   padding: 0 17px;
   line-height: 70px;
   color: #fff;
-  font-size: 13px;
+  font-size: 2rem;
   text-transform: uppercase;
   -webkit-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
@@ -897,7 +901,7 @@ blockquote {
   color: #fff;
 }
 .navigation.sticky .navbar-nav > li > a {
-  line-height: 70px;
+  line-height: 80px;
 }
 .navbar-nav > li > a:hover,
 .nav-transparent .navbar-default .navbar-nav > li > a:hover,
@@ -1151,6 +1155,7 @@ blockquote {
 }
 .portfolio .pf-image img {
   width: 100%;
+  height: 30vh;
   display: block;
 }
 .portfolio .pf-image .overlay .overlay-caption {

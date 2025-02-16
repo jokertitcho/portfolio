@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>IMC</title>
+    <style>
+      body {
+        width: 50%;
+        margin: auto;
+      }
+      h1 {
+        text-align: center;
+        font-size: 4rem;
+      }
+      span {
+        color: red;
+      }
+      input {
+        padding: 0.5rem;
+        width: 50%;
+        margin: auto;
+        margin-top: 2rem;
+        font-size: 2rem;
+        border-radius: 0.5rem;
+      }
+      button {
+        position: relative;
+        top: 0.25rem;
+        background: lightseagreen;
+        border: none;
+        height: 8rem;
+        border-radius: 12%;
+        margin-right: 1rem;
+        color: aliceblue;
+        padding: 0.5rem;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      }
+      button:hover {
+        background: rgb(35, 208, 199);
+      }
+      button:active {
+        transform: scale(0.95);
+        border: 1px solid black;
+      }
+
+      .imc {
+        font-weight: 800;
+        left: 1.8rem;
+        top: 1.5rem;
+        font-size: 1rem;
+        position: absolute;
+        margin-left: 0.5rem;
+        color: red;
+      }
+      .mensurations {
+        font-size: xx-large;
+      }
+      .container-progressBar {
+        margin-top: 4rem;
+      }
+      .progressBar {
+        display: flex;
+        height: 4rem;
+        border: 1px solid black;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        border-radius: 2rem;
+      }
+      .denutrition {
+        background: red;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        width: 15.5%;
+        height: 100%;
+        border-top-left-radius: 2rem;
+        border-bottom-left-radius: 2rem;
+        text-align: center;
+      }
+      .triangle-denutrition {
+        text-align: start;
+        margin-top: -1.7rem;
+      }
+      .triangle-maigreur {
+        margin-top: -1.7rem;
+        text-align: start;
+        margin-left: value;
+      }
+      .maigreur {
+        background: orange;
+        width: 14.285%;
+        height: 100%;
+        text-align: center;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      }
+      .equilibre {
+        background: green;
+        width: 14.285%;
+        height: 100%;
+        text-align: center;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      }
+      .surpoids {
+        background: yellowgreen;
+        width: 14.285%;
+        height: 100%;
+        text-align: center;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      }
+      .obesite-modere {
+        background: orange;
+        width: 14.285%;
+        height: 100%;
+        text-align: center;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      }
+      .obesite-severe {
+        background: rgb(255, 111, 0);
+        width: 14.285%;
+        height: 100%;
+        text-align: center;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      }
+      .obesite-massive {
+        background: red;
+        width: 15%;
+        height: 100%;
+        border-top-right-radius: 2rem;
+        border-bottom-right-radius: 2rem;
+        text-align: center;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      }
+      .indice,
+      .classification {
+        position: relative;
+        top: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 800;
+      }
+      .triangle {
+        transition: margin-left 2s;
+      }
+      .triangle-haut {
+        position: relative;
+        top: 0.75rem;
+      }
+      .triangle-bas {
+        position: relative;
+        bottom: 0.5rem;
+      }
+      .formule {
+        font-family: MV Boli;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+      .formImc {
+        font-size: 4rem;
+        font-weight: 800;
+        padding: 3rem;
+        margin-top: 2rem;
+        color: red;
+      }
+      .egale {
+        margin-top: 3rem;
+        font-size: 4rem;
+        padding: 2rem;
+      }
+      .formPoid {
+        height: 8rem;
+        font-size: 2.5rem;
+        border-bottom: 0.5rem solid black;
+        margin-bottom: 4rem;
+      }
+      .formTaille {
+        font-size: 2.5rem;
+      }
+      @media screen and (max-width: 2400px) {
+        body {
+          width: 80%;
+        }
+      }
+      @media screen and (max-width: 1500px) {
+        body {
+          width: 100%;
+          margin: 1rem;
+        }
+      }
+      @media screen and (max-height: 965px) {
+        .container-progressBar {
+          margin-top: 0rem;
+        }
+        .formule {
+          margin-top: 0rem;
+        }
+        body {
+          height: 1vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><span>I</span>ndice de <span>M</span>asse <span>C</span>orporelle</h1>
+    </header>
+    <div class="poid">
+      <input id="poids" type="number" placeholder="Votre poids en kilogramme" />
+      <label class="mensurations" for="poids">poids en kg</label>
+    </div>
+    <div class="taille">
+      <input id="tailles" type="number" placeholder="Votre taille en mètres " />
+      <label class="mensurations" for="tailles">taille en mètres</label>
+    </div>
+    <div class="resultat">
+      <label for="resultat"
+        ><button id="resultatImc">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="6rem"
+            height="6rem"
+            fill="currentColor"
+            class="bi bi-calculator"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"
+            />
+            <path
+              d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-4z"
+            />
+          </svg>
+          <div class="imc">IMC</div>
+        </button></label
+      >
+      <input
+        id="resultatFin"
+        type="text"
+        readonly="true"
+        placeholder="Résultat"
+      />
+    </div>
+    <div class="container-progressBar">
+      <div class="triangle triangle-haut">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="2rem"
+          height="2rem"
+          fill="currentColor"
+          class="bi bi-caret-down-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+          />
+        </svg>
+      </div>
+      <div class="progressBar">
+        <div class="denutrition" min="0" max="16.5" value="10">
+          <div class="indice">16,5</div>
+          <div class="classification">Dénutrition</div>
+        </div>
+        <div class="maigreur">
+          <div class="indice">16,5/&/18,5</div>
+          <div class="classification">Maigreur</div>
+        </div>
+        <div
+          class="equilibre"
+          aria-valuemin="18.51"
+          aria-valuemax="25"
+          aria-valuenow="19"
+        >
+          <div class="indice">18,5/&/25</div>
+          <div class="classification">Equilibre</div>
+        </div>
+        <div class="surpoids" aria-valuemin="25.01" aria-valuemax="30">
+          <div class="indice">25/&/30</div>
+          <div class="classification">Surpoids</div>
+        </div>
+        <div class="obesite-modere" aria-valuemin="30.01" aria-valuemax="35">
+          <div class="indice">30/&/35</div>
+          <div class="classification">obésité-modérée</div>
+        </div>
+        <div class="obesite-severe" aria-valuemin="35.01" aria-valuemax="40">
+          <div class="indice">35/&/40</div>
+          <div class="classification">obésité-sévère</div>
+        </div>
+        <div class="obesite-massive" aria-valuemin="40.01" aria-valuemax="45">
+          <div class="indice">40</div>
+          <div class="classification">obésité-massive</div>
+        </div>
+      </div>
+      <div class="triangle triangle-bas">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="2rem"
+          height="2rem"
+          fill="currentColor"
+          class="bi bi-caret-up-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="formule">
+      <div class="formImc">IMC</div>
+      <div class="egale">=</div>
+      <div class="division">
+        <div class="formPoid"><span>POIDS</span> (en kg)</div>
+        <div class="formTaille"><span>(TAILLE X TAILLE)</span>(en m)</div>
+      </div>
+    </div>
+
+    <script>
+            let inputPoids = document.getElementById("poids");
+      let inputTaille = document.getElementById("tailles");
+      let indicateurs = document.getElementsByClassName("triangle");
+
+
+      console.log(indicateurs);
+
+      var resultatFin = document.getElementById("resultatFin");
+      var resultatImc = document.getElementById("resultatImc");
+
+      function calcul(min, max) {}
+
+
+      resultatImc.addEventListener("click", () => {
+        var carre = parseFloat(inputTaille.value) * parseFloat(inputTaille.value);
+        resultatFin.value = parseFloat(inputPoids.value / carre).toFixed(2);
+        if (resultatFin.value > 0 && resultatFin.value <= 16.5) {
+
+          indicateurs[0].style.marginLeft = resultatFin.value / 1.2 + "%";
+          indicateurs[1].style.marginLeft = resultatFin.value / 1.2 + "%";
+        } else if (resultatFin.value > 16.5 && resultatFin.value <= 18.5) {
+          const MAIGRE_COEF_DIRECTOR = (0.28 - 0.14) / (18.5 - 16.5);
+          console.log(MAIGRE_COEF_DIRECTOR);
+          indicateurs[0].style.marginLeft.animate() =
+            (resultatFin.value * MAIGRE_COEF_DIRECTOR - 1.015) * 100 + "%";
+          indicateurs[1].style.marginLeft =
+            (resultatFin.value * MAIGRE_COEF_DIRECTOR - 1.015) * 100 + "%";
+        } else if (resultatFin.value > 18.5 && resultatFin.value <= 25) {
+          const EQUILIBLE_COEF_DIRECTOR = parseFloat(
+            (0.42 - 0.28) / (25 - 18.5)
+          ).toFixed(4);
+          console.log(EQUILIBLE_COEF_DIRECTOR);
+          indicateurs[0].style.marginLeft =
+            (resultatFin.value * EQUILIBLE_COEF_DIRECTOR - 0.118) * 100 + "%";
+          indicateurs[1].style.marginLeft =
+            (resultatFin.value * EQUILIBLE_COEF_DIRECTOR - 0.118) * 100 + "%";
+        } else if (resultatFin.value > 25 && resultatFin.value <= 30) {
+          const SURPOIDS_COEF_DIRECTOR = parseFloat(
+            (0.56 - 0.42) / (30 - 25)
+          ).toFixed(4);
+          console.log(SURPOIDS_COEF_DIRECTOR);
+          indicateurs[0].style.marginLeft =
+            (resultatFin.value * SURPOIDS_COEF_DIRECTOR - 0.28) * 100 + "%";
+          indicateurs[1].style.marginLeft =
+            (resultatFin.value * SURPOIDS_COEF_DIRECTOR - 0.28) * 100 + "%";
+        } else if (resultatFin.value > 30 && resultatFin.value <= 35) {
+          const OBESITE_MODERE_COEF_DIRECTOR = parseFloat(
+            (0.7 - 0.56) / (35 - 30)
+          ).toFixed(4);
+          console.log(OBESITE_MODERE_COEF_DIRECTOR);
+          indicateurs[0].style.marginLeft =
+            (resultatFin.value * OBESITE_MODERE_COEF_DIRECTOR - 0.28) * 100 + "%";
+          indicateurs[1].style.marginLeft =
+            (resultatFin.value * OBESITE_MODERE_COEF_DIRECTOR - 0.28) * 100 + "%";
+        } else if (resultatFin.value > 35 && resultatFin.value <= 40) {
+          const OBESITE_SEVERE_COEF_DIRECTOR = parseFloat(
+            (0.84 - 0.7) / (40 - 35)
+          ).toFixed(4);
+          console.log(OBESITE_SEVERE_COEF_DIRECTOR);
+          indicateurs[0].style.marginLeft =
+            (resultatFin.value * OBESITE_SEVERE_COEF_DIRECTOR - 0.28) * 100 + "%";
+          indicateurs[1].style.marginLeft =
+            (resultatFin.value * OBESITE_SEVERE_COEF_DIRECTOR - 0.28) * 100 + "%";
+        } else if (resultatFin.value > 40 && resultatFin.value <= 50) {
+          const OBESITE_MASSIVE_COEF_DIRECTOR = parseFloat(
+            (0.98 - 0.84) / (50 - 40)
+          ).toFixed(4);
+          console.log(OBESITE_MASSIVE_COEF_DIRECTOR);
+          indicateurs[0].style.marginLeft =
+            (resultatFin.value * OBESITE_MASSIVE_COEF_DIRECTOR + 0.28) * 100 + "%";
+          indicateurs[1].style.marginLeft =
+            (resultatFin.value * OBESITE_MASSIVE_COEF_DIRECTOR + 0.28) * 100 + "%";
+        }else if(resultatFin.value >50){
+          indicateurs[0].style.marginLeft = "98%";
+          indicateurs[1].style.marginLeft = "98%";
+        }
+      });
+    </script>
+  </body>
+</html>

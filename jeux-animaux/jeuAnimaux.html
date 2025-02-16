@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jeu des animaux </title>
+    <style>
+        html{
+            height: 80vh;
+        }
+        body{
+           text-align: center;
+           background-image: url("https://static.vecteezy.com/ti/vecteur-libre/p3/419895-animaux-sauvages-dans-la-jungle-gratuit-vectoriel.jpg");
+           background-size: cover;
+           background-repeat: no-repeat;
+           
+          
+        }
+        h4,
+        h1{
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+           
+            
+        }
+        button{
+            margin-top: 0.8rem;
+            height: 2rem;
+            width: 150px;
+            border-radius: 8px;
+            border: none;
+            transition: 0.5s;
+        }
+        button:hover{
+            box-shadow: 2px 3px 10px black;
+        }
+        .carteAnimaux{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            margin-bottom: 2rem;
+        }
+        .imgA{
+            width: 88%;   
+            height: 12rem;
+            border-top-left-radius: 2rem;
+            border-top-right-radius: 2rem;    
+        }
+        .imgI{
+            width: 88%;
+            height: 18rem;
+            border-radius: 2rem;
+        }
+        
+        .animauxGagne{
+            height: 30vh;
+            border-bottom: 1px solid black;
+        }
+        .joueur{
+            font-size: xx-large;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: blue;
+        }
+        .joueur1{
+            width: 20%;
+            background: lightblue;
+        }
+        .joueur2{
+            width: 20%;
+            background: lightcoral;
+        }
+        .btnAnimal{
+            margin-bottom:1rem;
+        }
+        .container{
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+
+        }
+        .carteIndice{
+            width: 40%;
+        }
+        #carte{
+            width: 20%;
+            height: 22rem;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black; 
+            border-radius: 2rem; 
+            background: lightgoldenrodyellow;
+           
+            transition: 1s;
+        }
+        #indice{
+            width: 400px;
+            height: 22rem;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black; 
+            border-radius: 2rem; 
+            background: lightgoldenrodyellow;
+            margin-bottom: 2%;
+            transform: rotate(-90deg) ;
+            
+        }
+        #indiceJ1,
+        #indiceJ2{
+            display: flexbox;
+        }
+        #indiceJ2 >.imgI,
+        #indiceJ1 >.imgI{
+            width: 2.8rem;
+            height: 2.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Le jeu des animaux</h1>
+    </header>
+    <main>
+        <div class="joueur">joueur 1</div>
+        <p>pioche une carte sans la montrer à ton adversaire. <br>
+         Puis cache la carte et essais de lui faire deviner n'animal <br> 
+         il piochant une carte pioche indice dessous et tu lui reponds</p>
+        <div class="carteAnimaux">
+            <div id="carte">
+                <div class="titleAnimal"></div>
+                <div class="imgAnimal"></div>
+                <div class="footerCard"></div>
+            </div>
+            <div class="btnAnimal">
+                <button id ="pioche">pioche animal</button>
+                <button id="cacherVoir">cacher</button>
+                <button id="gain">gagner</button>
+                <button id="perdu">perdu</button>
+                <button id="rejouer">rejouer &#8635; </button>
+            </div>
+        </div>
+        <div class="container">
+            
+            <div class="joueur1">joueur 1
+                <div class="animauxGagne">
+                    animaux gagné
+                    <div class="joueur1animaux"></div>
+                </div>
+                <div>
+                    <div id="indiceJ1"></div>
+                </div>
+            </div>
+    
+            <div class="carteIndice">
+                <div id="indice">
+                    <div class="titleIndice"></div>
+                    <div class="imgIndice"></div>
+                    <div class="footerIndice"></div>
+                </div>
+                <button id="piocheIndice">pioche indice</button>
+                <button id="garder">garder </button>
+                <button id="resetIndice"> reset pioche indice</button>
+            </div>
+            <div class="joueur2">joueur 2
+                <div class="animauxGagne">animaux gagné
+                    <div class="joueur2animaux"></div>
+                </div>
+                <div>
+                    <div id="indiceJ2"></div>
+                </div>   
+            </div>
+        </div>
+        <div class="propositon">
+            <label for="propositon"></label>
+        </div>
+    </main>
+    
+    <script>
+    // -----MES TABLEAUX D'OBJETS-----
+    //-----MES CARTES ANIMAUX-----    
+    var animaux =[
+        cerf ={
+            id: 1,
+            nom: "cerf",
+            couleur: "fauve",
+            imageLien: "https://media.istockphoto.com/id/140157656/fr/photo/portrait-de-cerf-majestueux-cerf-rouge-%C3%A0-lautomne-lautomne.jpg?s=612x612&w=0&k=20&c=iZJjPy5V2-1Kk2DxVrRTul3qleQ4lycKUKUTWQk8d9w=",
+            alimentation : "herbivore",
+            habitat : "foret",
+            taille : "2,1 m",
+            poid : "200 kg" 
+        },
+       lion ={
+            id : 2,
+            nom : "lion",
+            couleur : "fauve",
+            imageLien :"https://media.istockphoto.com/id/877369086/fr/photo/lion-panthera-leo-10-ans-isol%C3%A9-sur-blanc.jpg?s=612x612&w=0&k=20&c=wGghRaka59egq1p-LLKvLmY6p0VZdYUF9x7ymGTNyOc=",
+            alimentation : "carnivore",
+            habitat : "savane",
+            taille : "1,8-2,1 m",
+            poid : "250 kg",
+        },
+       elephant ={
+           id : 3,
+           nom :"elephant",
+           couleur : "gris",
+           imageLien : "https://media.istockphoto.com/id/479667835/fr/photo/fond-d%C3%A9l%C3%A9phant.jpg?s=612x612&w=0&k=20&c=9ITtu0uw442L1ZqendBip950z3tgWdkYu8F12B2hyWE=",
+           alimentation : "herbivore",
+           habitat : "savane",
+           taille : "3,5 m",
+           poid : "5 a 8 tonnes",
+        },
+       crabe = {
+        id : 4,
+        nom : "crabe",
+        couleur : "rouge",
+        imageLien: "https://media.istockphoto.com/id/544453032/fr/photo/crabe-gros-plan-cuba.jpg?s=612x612&w=0&k=20&c=8ojBgffqefUX0HWueTO3yfsoGoJZIAnTFEb9ey5L10s=",
+        alimentation : "carnivore",
+        habitat : "mer",
+        taille : "15 cm",
+        poid : "250 g",
+    },
+       suricate = {
+        id : 5,
+        nom : "suricate",
+        couleur : "fauve",
+        imageLien : "https://media.istockphoto.com/id/90965972/fr/photo/meerkats-%C3%A0-queue-fine.jpg?s=612x612&w=0&k=20&c=FpNOub7p5K3Fg9JInKK0FCXZvNhasHJMfP9vpjj_X7U=",
+        alimentation : "carnivore",
+        habitat : "savane",
+        taille : "25-35 cm",
+        poid : "600 a 800 gr",
+    },
+       koala = {
+        id : 6,
+        nom : "koala",
+        couleur : "gris",
+        imageLien : "https://media.istockphoto.com/id/1326007751/fr/photo/koala-sur-leucalyptus-en-plein-air-en-australie.jpg?s=612x612&w=0&k=20&c=KlQtD7rOzBSA8jW-6zvUyo1JZwHyr-Yl0gfxGPLSihc=",
+        alimentation : "herbivore",
+        habitat : "foret",
+        taille : "60-85 cm",
+        poid : "5 a 12 kg", 
+    },
+       girafe = {
+        id : 7,
+        nom : "girafe",
+        couleur : "blanc tacheté fauve",
+        imageLien: "https://media.istockphoto.com/id/1334132965/fr/photo/t%C3%AAte-de-visage-de-girafe-suspendue-%C3%A0-lenvers.jpg?s=612x612&w=0&k=20&c=aOYbobPlYRbZ2QbdasbZDMv-MIlsv2yHoF-x0PV2nTQ=",
+        alimentation : "herbivore",
+        habitat : "savane",
+        taille : "4,2 m",
+        poid : "800 a 1900 kg", 
+       },
+        grenouille = {
+        id : 8,
+        nom : "grenouille",
+        couleur : "multicouleur",
+        imageLien : "https://media.istockphoto.com/id/1049028724/fr/photo/sourire-de-la-grenouille-aux-yeux-rouges.jpg?s=612x612&w=0&k=20&c=NHva2mvTRcxqY_9ydByVa7O45CHrXBcyb-ef5T3dQ0c=",
+        alimentation : "carnivore",
+        habitat : "marré",
+        taille : "4,5-6,5 cm",
+        poid : "28 g", 
+       },
+       fourmilier = {
+        id : 9,
+        nom : "fourmilier",
+        couleur : "multicouleur",
+        imageLien : "https://media.istockphoto.com/id/1093340400/fr/photo/tamanoir.jpg?s=612x612&w=0&k=20&c=usqZwqr83FrCxRoLtmyjHOvfMknriweZ9QATDf-BhFY=",
+        alimentation : "carnivore",
+        habitat : "foret",
+        taille : "1 à 1,90 m",
+        poid : "18 à 39 kg",
+    },
+    cameleon = {
+        id : 10,
+        nom : "cameleon",
+        couleur : "multicouleur",
+        imageLien : "https://media.istockphoto.com/id/969103888/fr/photo/cam%C3%A9l%C3%A9on.jpg?s=612x612&w=0&k=20&c=x3UwgxH_covrWtghTTYAFbzD6yHGw3Lo0EBMyfCWwUU=",
+        alimentation : "carnivore",
+        habitat : "foret",
+        taille : "60 cm",
+        poid : "150 g",
+    },
+    paon = {
+        id : 11,
+        nom : "paon",
+        couleur : "multicouleur",
+        imageLien : "https://media.istockphoto.com/id/687803392/fr/photo/paon-m%C3%A2le-avec-ses-plumes-ouvertes.jpg?s=612x612&w=0&k=20&c=sF_ZvI6k1_NQ7jAa10P1_8HtHiy-wL56V-YkdIeWATs=",
+        alimentation : "omnivore",
+        habitat : "foret",
+        taille : "1 à 1,20 m",
+        poid : "2,8 à 4 kg",
+    },
+    rougeGorge = {
+        id : 12,
+        nom : "rouge gorge",
+        couleur : "multicouleur",
+        imageLien : "https://media.istockphoto.com/id/1030966828/fr/photo/robin.jpg?s=612x612&w=0&k=20&c=XbGbVDdfchGONoYOEOREO2VMNotxG20s1YMAR_LRasc=",
+        alimentation : "omnivore",
+        habitat : "foret",
+        taille : "13 cm",
+        poid : "15 à 22 g",
+    },
+    pandaGeant = {
+        id : 13,
+        nom : "panda geant",
+        couleur : "noir et blanc",
+        imageLien : "https://lemagdesanimaux.ouest-france.fr/images/dossiers/2023-05/animal-mal-reproduire-062858.jpg",
+        alimentation : "herbivore",
+        habitat : "foret",
+        taille : "1.50m et 1.80m",
+        poid : "80 à 125 kg",
+    },
+    rhinoceros = {
+        id : 14,
+        nom : "rhinocéros",
+        couleur : "gris",
+        imageLien : "https://www.twalo.fr/wp-content/uploads/2023/04/rhinoceros-safari-afrique.jpg",
+        alimentation : "herbivore",
+        habitat : "savane",
+        taille : "1.70m et 2m",
+        poid : "1400 à 3600 kg",
+    },
+    manchotEmpereur = {
+        id : 14,
+        nom : "manchot empereur",
+        couleur : "noir blanc jaune",
+        imageLien : "https://milan-jeunesse.com/mj/wp-content/uploads/2022/10/David-Tipling_Getty-Images-WEB.jpg",
+        alimentation : "piscivore",
+        habitat : "banquise",
+        taille : "1.20m",
+        poid : "20 à 40 kg",
+    },
+    okapi = {
+        id : 15,
+        nom : "okapi",
+        couleur : "noir blanc fauve",
+        imageLien : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Okapi2.jpg/1200px-Okapi2.jpg",
+        alimentation : "herbivore",
+        habitat : "jungle",
+        taille : "1.50 à 1.70m",
+        poid : "200 à 300 kg",
+    },
+    chouetteEffraie = {
+        id : 16,
+        nom : "chouette effraie",
+        couleur : "gris blanc fauve",
+        imageLien : "https://lemagdesanimaux.ouest-france.fr/images/dossiers/2021-05/chouette-effraie-071104.jpg",
+        alimentation : "carnivore",
+        habitat : "foret",
+        taille : "30 à 40cm",
+        poid : "430 à 620 g",
+    },
+    toucan = {
+        id : 17,
+        nom : "toucan",
+        couleur : "multicolore",
+        imageLien : "https://animals.sandiegozoo.org/sites/default/files/2016-11/animals_hero_toucan.jpg",
+        alimentation : "frugivore",
+        habitat : "jungle",
+        taille : "55 à 65cm",
+        poid : "500 à 850 g",
+    },
+    orqueEpaulard = {
+        id : 18,
+        nom : "orque epaulard",
+        couleur : "noir et blanc",
+        imageLien : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Killerwhales_jumping.jpg/1200px-Killerwhales_jumping.jpg",
+        alimentation : "carnivore",
+        habitat : "ocean",
+        taille : "5 à 8m",
+        poid : "3000 à 4000 kg",
+    }
+
+
+    ];
+    //-----MES CARTES INDICES-----
+    class IndiceElement{
+        constructor(id, nom, contenu, imageIndice){
+            this.id = id;
+            this.nom = nom;
+            this.contenu = contenu;
+            this.imageIndice = imageIndice;
+        }
+    }
+    const indiceObjet = [
+        new IndiceElement(1, "Bonus", "question de votre choix","./IMG0816.JPG"),
+        new IndiceElement(2, "couleur", "quel est ça couleur ?", "./couleur.jpg"),
+        new IndiceElement(3, "taille", "Est-il petit ou grand ?", "./IMG0802.JPG"),
+        new IndiceElement(4, "habitat", "Dans quel environnement vit-il ?", "./IMG0801.JPG"),
+        new IndiceElement(5, "vitesse", "Est-il plutôt rapide ou lent", "./IMG0800.JPG"),
+        new IndiceElement(6, "peau", "A t'il des plumes, des poils, des écailles, de la peau ?", "./IMG0799.JPG"),
+        new IndiceElement(7, "vole", "Est-ce qu'il vole ou il ne vole pas ?", "./IMG0798.JPG"),
+        new IndiceElement(8, "pattes/genre", "Quel genre de pattes a t'il ?", "IMG0814.JPG"),
+        new IndiceElement(9, "caractére", "Est-il plutôt mignon ou méchant", "IMG0815.JPG"),
+        new IndiceElement(10, "Dihurne/Nocturne", "Vie t'il plutôt le jour ou la nuit ?", "IMG0817.JPG"),
+        new IndiceElement(11, "Domestique/Sauvage", "Est-il plutôt domestique ou sauvage ?", "IMG0818.JPG"),
+        new IndiceElement(12, "force", "Est il plutôt fort ou faible ?", "./IMG0792.JPG"),
+        new IndiceElement(13, "patte/nombre", "combien de patte a t'il 0, 2, 4, ou plus ?", "./IMG0814.JPG"),
+        new IndiceElement(14, "crie", "sont crie est-il puissant ?", "./IMG0821.JPG"),
+        new IndiceElement(15, "regime", "Quel est sont genre de nourriture ?", "IMG0822.JPG"),
+
+    ];
+// -----MES VARRIABLES-----
+    const titleAnimal = document.querySelector(".titleAnimal");
+    const imgAnimal = document.querySelector(".imgAnimal");
+    const footerCard = document.querySelector(".footerCard");
+    const joueur = document.querySelector(".joueur");
+    const joueur1 = document.querySelector(".joueur1animaux");
+    const joueur2 = document.querySelector(".joueur2animaux");
+    const titleIndice = document.querySelector(".titleIndice");
+    const imgIndice = document.querySelector(".imgIndice");
+    const footerIndice = document.querySelector(".footerIndice");
+    const titre =document.querySelector(".title");
+    const carteAnimaux = document.querySelector(".carteAnimaux");
+    const carte = document.getElementById("carte");
+    const indiceJ1 =document.getElementById("indiceJ1");
+    const indiceJ2  =document.getElementById("indiceJ2");
+    const etatInitial = indiceObjet.slice();
+    //-----MES VARIABLES BOUTTONS-----
+    const pioche = document.getElementById("pioche");
+    const cacherVoir = document.getElementById("cacherVoir");
+    const gain = document.getElementById("gain");
+    const perdu = document.getElementById("perdu");
+    const piocheIndice = document.getElementById("piocheIndice");
+    const rejouer = document.getElementById("rejouer");
+    const garder = document.getElementById("garder"); 
+    const resetIndice = document.getElementById("resetIndice"); 
+    //switch / interrupteur
+    var click = 0;
+    var player = 1;
+    console.log(player);
+    //tableaux
+    var saveIndice = indiceObjet.slice();
+    var winPlayer1 = [];
+    var winPlayer2 = [];
+    console.log(winPlayer1);
+    console.log(winPlayer2);
+    
+    var tableAllCard = [];
+    
+    var loser = [];
+    var indiceWin = [];
+    //exteriorisation de variable pour les fonctions
+    var identity;
+    var newtitle;
+    var newImg;
+    var infoAnimal;
+    var indicePioche;
+    var newIndiceTitle;
+    var newIndiceImg;
+    // -----MES ADDEVENTLISTENER-----
+    //pioche une carte au hasard 
+    pioche.addEventListener("click", ()=>{
+            pioche.disabled =true;
+            gain.disabled = false;
+            perdu.disabled = false;
+            animalRandom();
+              
+    });
+    // selectionne le gagnant de la carte et passe au player 2
+    gain.addEventListener("click", ()=>{
+        pioche.disabled = false;
+        gain.disabled = true;
+        perdu.disabled = true;
+            
+        if(player == 1){            
+            winPlayer1.push(identity.nom);
+            tableAllCard.push(identity);
+            let w1 = "";
+                for(let i = 0; i < winPlayer1.length; i++){
+                    w1 += winPlayer1[i] + "<br/>";
+                }
+                joueur1.innerHTML = `${w1}`;
+        }if(player == 2){
+            joueur.style.color = "red";
+            winPlayer2.push(identity.nom); 
+            tableAllCard.push(identity);  
+            let w2 = "";
+                for(let i = 0; i < winPlayer2.length; i++){
+                    w2 += winPlayer2[i] + "<br/>";
+                }
+                joueur2.innerHTML = `${w2}`;       
+        }
+        reinitialiserTableau()
+        changePlayer();
+        joueur.innerHTML = "joueur " + player;             
+         
+             
+    });
+    //remet l'animal dans la pioche
+    perdu.addEventListener("click", ()=>{
+        reinitialiserTableau()
+        pioche.disabled = false;
+        gain.disabled =true;
+        perdu.disabled = true;
+        changePlayer();
+        joueur.innerHTML = "joueur " + player;
+        loser.push(identity.nom);
+        tableAllCard.push(identity.id);
+        
+    });
+    //cache ou fait apparaitre la carte
+    cacherVoir.addEventListener("click", ()=>{
+        
+        if(click == 0){
+            carte.style.animation = "3s ease";
+            carte.style.transform = "rotateY(180deg)";
+            titleAnimal.style.visibility = "hidden";
+            imgAnimal.style.visibility = "hidden";
+            footerCard.style.visibility = "hidden";
+                         
+            cacherVoir.innerHTML = "voir";
+            click = 1;
+        }else if(click == 1){
+            
+            carte.style.transform = "rotateY(360deg)";
+            titleAnimal.style.visibility = "visible";
+            imgAnimal.style.visibility = "visible";
+            footerCard.style.visibility = "visible";
+            cacherVoir.innerHTML = "cacher"
+            click = 0; 
+        }     
+    });
+    rejouer.addEventListener("click", ()=>{
+      location.reload();
+    });
+
+    piocheIndice.addEventListener("click",()=>{
+        piocheIndice.disabled = true;
+        indiceRandom()
+    });
+    garder.addEventListener("click", ()=>{
+        piocheIndice.disabled = false;  
+        for(let i = 0; i < 10; i++){
+         if(indiceWin.length < 9){
+             garder.disabled = false;
+         }else{
+             garder.disabled = true;
+             piocheIndice.disabled = true;
+         };
+       if(player == 1){
+        indiceWin.push(indicePioche.imageIndice);
+        
+        indiceJ2.appendChild(newIndiceImg)
+       }if( player == 2){
+        indiceWin.push(indicePioche.imageIndice);
+        indiceJ1.appendChild(newIndiceImg)
+        /* indiceJ1.innerHTML = indiceWin */
+       };
+       titleIndice.removeChild(newIndiceTitle);
+       imgIndice.removeChild(newIndiceImg);
+       };
+    });
+    resetIndice.addEventListener("click", ()=>{
+        
+        
+        
+        
+        piocheIndice.disabled = false;
+        garder.disabled = false;
+    reinitialiserTableau()
+    })
+    // -----MES FONCTIONS-----
+    //fonction qui change les joueurs
+    function changePlayer(){    
+        if(player == 1){ 
+            console.log("je passe ici");  
+            player = 2;
+        }else if(player == 2){
+            player = 1;                                                                                                                                                                                                                                                                                                                                                                                                                             
+        }
+        titleAnimal.removeChild(newtitle);
+        imgAnimal.removeChild(newImg);
+        footerCard.removeChild(infoAnimal);
+    };
+                                              
+    // fonction qui pioche une carte animal au hasard
+    function animalRandom(){
+        var randomIndex = Math.floor(Math.random() * animaux.length);
+        identity = animaux[randomIndex];
+        
+        //creation du titre de ma carte animal
+        newtitle = createCardAnimals(
+            "h4",
+            {
+                class: "title",
+            },
+            identity.nom,  
+        )
+        titleAnimal.appendChild(newtitle);
+        //creation de l'image de la carte animal
+        newImg = createCardAnimals(
+            "img",
+            {
+                class: "imgA",
+                src: identity.imageLien,
+            },
+        )
+        imgAnimal.appendChild(newImg) 
+        // creation des caracteristiques de la carte animal
+       infoAnimal = createCardAnimals(
+            "div",
+            {
+                class : "caracteristique"
+            },
+            `couleur : ${identity.couleur}<br/>
+            alimentation :${identity.alimentation}<br/>
+            habitat : ${identity.habitat}<br/>
+            taille : ${identity.taille}<br/>
+            poid : ${identity.poid}`
+            
+        )
+        footerCard.appendChild(infoAnimal)
+
+        animaux.splice(randomIndex, 1)
+        
+        
+    };
+    //fonction qui pioche une incdice
+    function indiceRandom(){
+        var randomIndex = Math.floor(Math.random() *indiceObjet.length);
+        indicePioche = indiceObjet[randomIndex];
+        newIndiceTitle = createCardAnimals(
+            "h3",
+            {
+                class: "titleIndice", 
+            },
+            indicePioche.nom,        )
+            titleIndice.appendChild(newIndiceTitle)
+    //image de l'indice
+          newIndiceImg = createCardAnimals(
+            "img",
+            {
+                class: "imgI",
+             src: indicePioche.imageIndice
+            },
+
+          )
+          imgIndice.appendChild(newIndiceImg);
+          indiceObjet.splice(randomIndex, 1);
+    };
+    //fonction qui créer un element 
+    var createCardAnimals =(type, attribut, text ="")=> {
+       const nodeElement = document.createElement(type);
+
+    for(const propriete in attribut){
+        nodeElement.setAttribute(propriete, attribut[propriete]);
+    }
+    nodeElement.innerHTML = text;
+    return nodeElement;
+    };
+    //fonction pour réinitialiser le tableau a l'état initial
+    function reinitialiserTableau(){
+        indiceWin = []
+        indicePioche = [];
+        if(player==1){
+            indiceJ2.innerHTML = ""
+        }else{
+            indiceJ1.innerHTML = ""
+        }
+        indiceObjet.length = 0;
+        indiceObjet.push(...etatInitial);
+        console.log(indiceObjet)
+    }
+    //fonction qui parcours deux tableaux en meme temps 
+    function parcoursMultiTable(tableaux1, tableaux2, tableaux3, index = 0){
+        let elementTable1 = tableaux1[index];
+        let elementTable2 = tableaux2[index];
+        let elementTable3 = tableaux3[index];
+        if(index >= tableaux1.length && index >= tableaux2.length && index >= tableaux3.length){
+           return;
+        }else{
+           parcoursMultiTable(tableaux1, tableaux2, tableaux3, index + 1);
+    
+    tableauxMulti.push(elementTable1);
+    tableauxMulti.push(elementTable2);
+    tableauxMulti.push(elementTable3)
+    
+}  
+};
+/* class TableauReutilisable{
+    constructor(tableauOriginal){
+        this.tableauOriginal = tableauOriginal.slice()
+        this
+    }
+} */
+
+   
+    </script>
+</body>
+</html>

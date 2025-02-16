@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <title>recharge leaf</title>
+    <style>
+      body{
+        text-align: center;
+      }
+      input{
+        height: 2vh;
+      }
+      .entrerPourcent,
+      .heureDeDepart,
+      .resultatHeure{
+        margin-bottom: 2vh;
+      }
+      .histo{
+        font-size: large;
+        font-weight: 800;
+      }
+      .num {
+  position:relative;
+  display:inline-block;
+  width:60px;
+  height:80px;
+  font: 55px 'Roboto Slab', sans-serif;
+  color:white;
+  background:rgba(90,90,90,1);
+  border:solid 3px #404040;
+  box-sizing:border-box;
+  border-radius:18px;
+}
+.colon {
+  position:relative;
+  display:inline-block;
+  font: 60px 'Roboto Slab', sans-serif;
+  top:-28px;
+  left:-2px;
+  color:#404040;
+}
+.base span {
+  position:absolute;
+  display:block;
+  width:100%;
+}
+
+.upper {
+  position:absolute;  
+  width:100%;
+  height:50%;
+  background:linear-gradient(0deg, rgba(200,200,200,1), RGB(57,60,70,1) 15%);
+  border-radius:15px 15px 0 0;  
+  box-shadow: inset 0 1px 8px rgba(0,0,0,.1);
+  overflow:hidden;
+  border-bottom:solid 1px rgba(0,0,0,.5);
+  box-sizing:border-box;
+}
+
+.lower {
+  position:absolute;
+  top:50%;
+  width:100%;
+  height:50%;
+  background:linear-gradient(180deg, rgba(200,200,200,1), RGB(57,60,70,1) 15%);
+  border-radius:0 0 15px 15px;  
+  box-shadow: inset 0 -3px 5px rgba(0,0,0,.2);
+  overflow:hidden;
+  border-top:solid 1px #ddd;
+  box-sizing:border-box;
+}
+
+.lower span {
+  position:relative;
+  top:-100%;
+}
+
+
+
+      #calculer,
+      #finDeCharge,
+      #enregistrerPrix{
+        background: lightblue;
+        border: none;
+        border-radius: 0.2rem;
+        height: 4vh;
+        font-weight: 800;
+      }
+      #clock{
+        margin-top: 2vh;
+        font-size: xx-large;
+        font-weight: 800;
+      }
+      #enregistrerPrix{
+        margin-top: 2%;
+        
+      }
+      #historique{
+        font-size: medium;
+        font-weight: 800;
+      }
+      @media screen and (max-width: 500px){
+        .num{
+    width: 42px;
+    height: 68px;
+    font: 50px 'Roboto Slab', sans-serif;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>calculateur de recharge leaf</h1>
+    <div class="entrerPourcent">
+      <label>Entrer votre pourcentage actuel :</label>
+      <input type="number" name="pourcent" id="entrerPourcent" />
+      <button id="calculer">Calculez</button>
+    </div>
+    <div class="resultatHeure">
+      <label for="nbrHeure">Vous devez charger :</label>
+      <input type="text" name="nbrHeure" id="nbrHeure" /> <span onclick="copierTexte(nbrHeure)"><i class="fa-regular fa-copy"></i></span>
+    </div>
+    <div class="prix">
+      <label for="prix">cout en electricité :</label>
+      <input type="number" name="prix" id="prix"> €
+    </div>
+    <div>
+      <button id="enregistrerPrix">ajouter cette somme</button>
+    </div>
+    <div class="heureDeDepart">
+      <h4>Entrer votre heure de depart :</h4>
+      <label for="Heures">Heures</label>
+      <input type="number" name="Heures" id="H" />
+      <label for="minutes">Min</label>
+      <input type="number" name="minutes" id="M" />
+      <button id="finDeCharge">calculez</button>
+    </div>
+    <div>
+      <label for="fin"> Heure de fin</label>
+      <input type="text" id="heureDeFin" /> <span onclick="copierTexte(heureDeFin)"><i class="fa-regular fa-copy"></i></span>
+    </div>
+    <div id="clock">
+      <div id="h10" class="num">
+        <div class="upper"></div>
+        <div class="base upper"></div>
+        <div class="base lower"></div>
+        <div class="lower"></div>
+      </div>
+      
+      <div id="h0" class="num">
+        <div class="upper"></div>
+        <div class="base upper"></div>
+        <div class="base lower"></div>
+        <div class="lower"></div>
+      </div>
+      
+      <div class="colon">:</div>
+      
+      <div id="m10" class="num">
+        <div class="upper"></div>
+        <div class="base upper"></div>
+        <div class="base lower"></div>
+        <div class="lower"></div>
+      </div>
+      
+      <div id="m0" class="num">
+        <div class="upper"></div>
+        <div class="base upper"></div>
+        <div class="base lower"></div>
+        <div class="lower"></div>
+      </div>
+      
+      <div class="colon">:</div>
+      
+      <div id="s10" class="num">
+        <div class="upper"></div>
+        <div class="base upper"></div>
+        <div class="base lower"></div>
+        <div class="lower"></div>
+      </div>
+      
+      <div id="s0" class="num">
+        <div class="upper"></div>
+        <div class="base upper"></div>
+        <div class="base lower"></div>
+        <div class="lower"></div>
+      </div>
+    </div>
+    <div id="prixTotalMois"></div>
+
+    <canvas id="canvas" width="150"></canvas>
+
+    <div>
+      <label class="histo" for="historique">Historique des prix de recharge </label>
+      <select id="historique">
+        <option value="">--choisissez un mois--</option>
+        <option value="Janvier">Janvier</option>
+        <option value="Fevrier">Fevrier</option>
+        <option value="Mars">Mars</option>
+        <option value="Avril">Avril</option>
+        <option value="spider">Mai</option>
+        <option value="Juin">Juin</option>
+        <option value="Juillet">Juillet</option>
+        <option value="Août">Aout</option>
+        <option value="Septembre">Septembre</option>
+        <option value="Octobre">Octobre</option>
+        <option value="Novembre">Novembre</option>
+        <option value="Decembre">Decembre</option>  
+      </select>  
+    </div>
+    <div id="displayhisto">
+
+    </div>
+    <div id="totalDuMois">
+
+    </div>
+
+    <script>
+      //-----declaration de variable-----
+      var enregistrerPrix = document.getElementById("enregistrerPrix");
+      var horloge = document.getElementById("clock");
+      var nbrHeure = document.querySelector("#nbrHeure");
+      var heureDeFin = document.querySelector("#heureDeFin");
+      var prix = document.getElementById("prix");
+      var historique = document.getElementById("historique");
+      const prixTotalMois = document.getElementById("prixTotalMois");
+      let cookies = [];
+      var validiteCookies = 3;
+      var moisRecherche ;
+      var cookieArray = [];
+      var sommeMois = 0;
+      var newM;
+      var resultatHeureFin;
+      var minsFin;
+      var heures;
+      var minutes;
+      var H = document.querySelector("#H");
+      var M = document.querySelector("#M");
+      //-----les evenements-----
+      calculer.addEventListener("click", () => {
+        //recupére la valeur en pourcent de la15
+        let multiplicateur = 100 - entrerPourcent.value;
+        resultat = (36 * multiplicateur / 100) / 2.358;
+        console.log(resultat);
+        heures = Math.floor(resultat);
+        minutes = Math.round((resultat - heures) * 60);
+        //resultat au format heure min
+        var resultatFormated = heures + "h" + minutes + "min";        
+        nbrHeure.value = resultatFormated;
+        //convertion du resultat en decimaleT
+
+        var resultatDecimale = (minutes/60) + heures;
+        //calcul du prix de l'electricité
+        var prixElec = ((0.2064 * 2.358) * resultatDecimale)*1.2; 
+        console.log(prixElec);
+        prix.value = prixElec.toFixed(2);
+      });
+      enregistrerPrix.addEventListener("click",()=>{
+        var moisEnCours = new Date();
+        var mois = moisEnCours.getMonth();
+        var jourEnCours = new Date();
+        var jour = jourEnCours.getDate();
+        var tab_mois = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet","Août", "Septembre", "Octobre", "Novembre", "Decembre"];
+        var prixDuMois = prix.value;
+        var moisEnLettre = tab_mois[mois];
+        var moisJour = moisEnLettre + jour;
+        console.log("le mois et le jours sont :" + moisJour);
+        console.log("le mois est " + moisEnLettre);
+        var newContent = document.createTextNode(prixDuMois);
+        prixTotalMois.appendChild(newContent);
+        createCookie(moisJour, prixDuMois, validiteCookies);
+        console.log(prixDuMois);
+      });
+      finDeCharge.addEventListener("click", () => {
+        var newH = H.value;
+        newM = M.value;
+        //addittion des heures en minutes
+        var totalHeureEnMin = heures * 60 + newH * 60;
+        // conversion des minutes en heures 
+        var heuresFin = Math.floor(totalHeureEnMin / 60) % 24;
+        //addition des minutes
+        minsFin = parseInt(minutes) + parseInt(newM);
+        // condition si les minutes depassent 60 ajouter + 1h
+        if(minsFin > 60){
+          minsFin = minsFin % 60;
+          heuresFin ++;
+         resultatHeureFin = heuresFin + "h" + minsFin + "min";
+         heureDeFin.value = resultatHeureFin;
+         
+        };
+        resultatHeureFin = heuresFin + "h" + minsFin + "min";
+         console.log(resultatHeureFin);
+         heureDeFin.value = resultatHeureFin;
+         
+      });
+      historique.addEventListener("change", ()=> {
+        let date = historique.value;
+        cookies = cookieArray.filter(cookie => cookie[0].startsWith(date));
+        cookies.forEach(cookie => {
+          const cookieElement = document.createElement('div');
+          cookieElement.className = 'cookie-item';
+          cookieElement.textContent = `${cookie[0]} : ${cookie[1]}`;
+          displayhisto.appendChild(cookieElement);
+        }) 
+        cookies.forEach(cookie =>{
+          let valeur = parseFloat(cookie[1]);
+          sommeMois += valeur; 
+           let totalElement = "votre total pour le mois de " + date + " est " + sommeMois.toFixed(2); 
+          totalDuMois.textContent = totalElement;
+        })      
+      });
+     
+      //-----les fonctions-----
+      //fonction qui charge mes cookie dans un objet
+      
+      var chargeCookie = (function() {
+  var cookies = document.cookie.split(";");
+
+  for (var i = 0; i < cookies.length; i++) {
+    var cookieParts = cookies[i].split("=");
+    var cookieName = cookieParts[0].trim();
+    var cookieValue = unescape(cookieParts.slice(1).join("="));
+
+    // Ajoutez chaque paire clé-valeur sous forme de tableau [clé, valeur]
+    cookieArray.push([cookieName, cookieValue]);
+  }
+
+  return cookieArray;
+})();
+      //fonction qui calcul en minutes 
+      function calculMinutes() {
+        if (minsFin > 60) {
+          resultatHeureFin = parseInt(resultatHeureFin) + 1;
+          minsFin = minsFin % 60;
+          return resultatHeureFin;
+          return minsFin;
+        }
+      };
+      // fonction qui creer un cookie 
+      function createCookie(cname, cvalue, exyears) {
+  console.log("je crée un cookie");
+  console.log(cname);
+  console.log(cvalue);
+  console.log(exyears);
+
+  const d = new Date();
+  d.setTime(d.getTime() + (exyears * 365 * 24 * 60 * 60 * 1000));
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+    
+function copierTexte(id){
+ id.select()
+ document.execCommand("copy");
+}
+
+     
+      
+     /*  function idParMois(mois){
+        if(m)
+
+      } */
+      // horloge numerique
+      TweenMax.set("#clock", {perspective:1500})
+TweenMax.set(".upper", {rotationX:0.01, transformOrigin:"50% 100%"})
+TweenMax.set(".lower", {rotationX:0.01, transformOrigin:"50% 0%"})
+
+// set clock
+var t, ss, mm, hh;
+setTimeVars();
+function setTimeVars(){
+  t = new Date();
+  t = new Date();
+    ss = String(t.getSeconds());
+  mm = String(t.getMinutes());
+  hh = String( (t.getHours()>12) ? t.getHours()-12 : t.getHours() );
+  if (ss.length==1) ss = "0"+ss;
+  if (mm.length==1) mm = "0"+mm;
+  if (hh.length==1) hh = "0"+hh;
+}
+
+h10.childNodes[3].innerHTML = h10.childNodes[7].innerHTML = "<span>"+Number(hh.substr(0,1))+"</span>";
+h0.childNodes[3].innerHTML = h0.childNodes[7].innerHTML = "<span>"+Number(String(hh).substr(1,1))+"</span>";
+
+m10.childNodes[3].innerHTML = m10.childNodes[7].innerHTML = "<span>"+Number(mm.substr(0,1))+"</span>";
+m0.childNodes[3].innerHTML = m0.childNodes[7].innerHTML = "<span>"+Number(mm.substr(1,1))+"</span>";
+
+s10.childNodes[3].innerHTML = s10.childNodes[7].innerHTML = "<span>"+Number(ss.substr(0,1))+"</span>";
+s0.childNodes[3].innerHTML = s0.childNodes[7].innerHTML = "<span>"+Number(ss.substr(1,1))+"</span>";
+
+
+// start ticking
+var interval = setInterval(function(){
+    setTimeVars();
+  
+  tick(s0, Number(ss.substr(1,1)) )
+  
+  if (ss.substr(1,1)=="9"){
+    tick(s10, Number(ss.substr(0,1)) ) 
+    if (ss=="59"){
+      tick(s10, 5, true)
+      tick(m0, Number(mm.substr(1,1)))
+      if (mm.substr(1,1)=="9"){
+        tick(m10, Number(mm.substr(0,1)))
+        if (mm=="59") {
+          tick(m10, 5, true)
+          tick(h0, Number(hh.substr(1,1)))
+          if (hh.substr(1,1)=="9") tick(h10, Number(hh.substr(0,1)))
+          if (hh=="12") {
+            tick(h0, Number(hh.substr(0,1)), true)
+            tick(h10, Number(hh.substr(1,1)), true)
+          }
+        }
+      }
+    }
+  }
+  
+}, 1000)
+
+function tick(mc,i, toZero=false){
+  // set numbers
+  mc.childNodes[3].innerHTML = "<span>"+i+"</span>"; //start upper
+  mc.childNodes[5].innerHTML = "<span>"+i+"</span>"; //start lower
+  if ( i==9 || toZero ) i=-1;
+  mc.childNodes[1].innerHTML = "<span>"+(i+1)+"</span>"; //end upper
+  mc.childNodes[7].innerHTML = "<span>"+(i+1)+"</span>"; //end lower
+  // animate tick
+  TweenMax.fromTo(mc.childNodes[1], .3, {alpha:0},{alpha:1, ease:Power4.easeIn})  
+  TweenMax.fromTo(mc.childNodes[3], .3, {rotationX:0, background:"linear-gradient(0deg, rgba(200,200,200,1), RGB(57,60,70,1) 15%)"},{rotationX:-90, ease:Power1.easeIn})
+  TweenMax.fromTo(mc.childNodes[7], .5+.2*Math.random(), {rotationX:90},{rotationX:0, ease:Bounce.easeOut, delay:.3})
+  TweenMax.fromTo(mc.childNodes[5], .6, {alpha:1},{alpha:0, ease:Bounce.easeOut, delay:.3})  
+}
+
+
+
+      /* function updateClock(){
+          let now = new Date();
+          var hours = now.getHours();
+          var mts = now.getMinutes();
+          var secs = now.getSeconds();
+          //ajoute un zero devant les chiffres si necessaire
+          hours = (hours < 10) ? "0" + hours : hours;
+          mts = (mts < 10) ? "0" + mts :mts;
+          secs = (secs < 10) ? "0" + secs : secs;
+          var timeString = hours + ":" + mts + ":" + secs;
+          horloge.innerHTML = timeString; 
+      };
+      setInterval(updateClock, 1000);  */
+
+
+      // horloge a aiguille
+      function clock() {
+        var now = new Date();
+        var ctx = document.getElementById("canvas").getContext("2d");
+        ctx.save();
+        ctx.clearRect(0, 0, 150, 150);
+        ctx.translate(75, 75);
+        ctx.scale(0.4, 0.4);
+        ctx.rotate(-Math.PI / 2);
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "white";
+        ctx.lineWidth = 8;
+        ctx.lineCap = "round";
+
+        // Marquage des heures
+        ctx.save();
+        for (var i = 0; i < 12; i++) {
+          ctx.beginPath();
+          ctx.rotate(Math.PI / 6);
+          ctx.moveTo(100, 0);
+          ctx.lineTo(120, 0);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // Marquage des minutes
+        ctx.save();
+        ctx.lineWidth = 5;
+        for (i = 0; i < 60; i++) {
+          if (i % 5 != 0) {
+            ctx.beginPath();
+            ctx.moveTo(117, 0);
+            ctx.lineTo(120, 0);
+            ctx.stroke();
+          }
+          ctx.rotate(Math.PI / 30);
+        }
+        ctx.restore();
+
+        var sec = now.getSeconds();
+        var min = now.getMinutes();
+        var hr = now.getHours();
+        hr = hr >= 12 ? hr - 12 : hr;
+
+        ctx.fillStyle = "black";
+
+        // Aiguille des heures
+        ctx.save();
+        ctx.rotate(
+          hr * (Math.PI / 6) + (Math.PI / 360) * min + (Math.PI / 21600) * sec
+        );
+        ctx.lineWidth = 14;
+        ctx.beginPath();
+        ctx.moveTo(-20, 0);
+        ctx.lineTo(80, 0);
+        ctx.stroke();
+        ctx.restore();
+
+        // Aiguille des minutes
+        ctx.save();
+        ctx.rotate((Math.PI / 30) * min + (Math.PI / 1800) * sec);
+        ctx.lineWidth = 10;
+        ctx.beginPath();
+        ctx.moveTo(-28, 0);
+        ctx.lineTo(112, 0);
+        ctx.stroke();
+        ctx.restore();
+
+        // Aiguille des secondes
+        ctx.save();
+        ctx.rotate((sec * Math.PI) / 30);
+        ctx.strokeStyle = "#D40000";
+        ctx.fillStyle = "#D40000";
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(-30, 0);
+        ctx.lineTo(83, 0);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(0, 0, 10, 0, Math.PI * 2, true);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(95, 0, 10, 0, Math.PI * 2, true);
+        ctx.stroke();
+        ctx.fillStyle = "rgba(0,0,0,0)";
+        ctx.arc(0, 0, 3, 0, Math.PI * 2, true);
+        ctx.fill();
+        ctx.restore();
+        ctx.beginPath();
+        ctx.lineWidth = 14;
+        ctx.strokeStyle = "#325FA2";
+        ctx.arc(0, 0, 142, 0, Math.PI * 2, true);
+        ctx.stroke();
+        ctx.restore();
+        window.requestAnimationFrame(clock);
+      }
+      window.requestAnimationFrame(clock);
+    </script>
+  </body>
+</html>

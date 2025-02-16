@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>mickey</title>
+    <style>
+      .container {
+        width: 1000px;
+        margin: auto;
+        background: lightblue;
+        height: 70rem;
+      }
+      .cadre {
+        width: 1000px;
+        position: relative;
+        height: 60rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .oreille {
+        position: absolute;
+        top: 22%;
+        width: 18rem;
+        height: 18rem;
+        border: 2px solid black;
+        border-radius: 50%;
+        background: black;
+      }
+      .gauche {
+        position: absolute;
+        margin-top: -8%;
+        right: 12%;
+        box-shadow: inset -0.4rem 4px 12px lightslategray;
+      }
+      .droite {
+        position: absolute;
+        margin-top: -8%;
+        left: 12%;
+        box-shadow: inset -4px 4px 12px lightslategray;
+      }
+      .visage {
+        width: 28rem;
+        height: 28rem;
+        border: 0.2rem solid black;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 20%;
+        background: black;
+      }
+      .contour-haut-visage {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+        z-index: 2;
+      }
+      .contour {
+        height: 18rem;
+        width: 12rem;
+        background: rgb(253, 236, 218);
+        border-radius: 50%;
+        position: relative;
+        box-shadow: inset 0.5rem -12.5rem 2rem 2.5rem rgb(255, 212, 169);
+      }
+      .oeil-g {
+        position: absolute;
+        margin-left: 7rem;
+        z-index: 1;
+      }
+      .oeil-d {
+        position: absolute;
+        margin-right: 7rem;
+      }
+      .bas-visage {
+        height: 10rem;
+        margin-top: 17rem;
+      }
+      .joue-g {
+        width: 12rem;
+        height: 18rem;
+        border-radius: 50%;
+        background: rgb(253, 236, 218);
+        rotate: -48deg;
+        margin-top: -6rem;
+        border-left: 2px solid black;
+        box-shadow: inset 2rem -8.5rem 3rem 3.2rem rgb(0 0 0 / 5%),
+          inset 1.5rem -12.5rem 4rem 2.5rem rgb(255 212 169);
+      }
+      .joue-d {
+        position: absolute;
+        width: 12rem;
+        height: 18rem;
+        border-radius: 50%;
+        background: rgb(253, 236, 218);
+        rotate: 48deg;
+        margin-top: -18rem;
+        margin-left: 16rem;
+        border-right: 2px solid black;
+        box-shadow: inset -2rem -1.5rem 1rem 3.2rem rgb(0 0 0 / 8%),
+          inset -1.5rem -13.5rem 1rem 2.5rem rgb(255 212 169);
+      }
+      .faussette-g {
+        position: absolute;
+        width: 2.5rem;
+        height: 1rem;
+        border-radius: 50%;
+        rotate: -10deg;
+        margin-top: 6.5rem;
+        margin-left: -1.2rem;
+        border-top: 2px solid black;
+      }
+      .faussette-d {
+        position: absolute;
+        width: 2.5rem;
+        height: 1rem;
+        border-radius: 50%;
+        border-top: 2px solid black;
+        margin-left: 20.5rem;
+        margin-top: 6.5rem;
+        rotate: 10deg;
+      }
+      .museau {
+        width: 12rem;
+        height: 18rem;
+        border-radius: 50%;
+
+        rotate: 90deg;
+        margin-top: 8rem;
+        margin-left: 0rem;
+        position: absolute;
+        z-index: 2;
+      }
+      .bouche {
+        position: absolute;
+        width: 14rem;
+        height: 18rem;
+        border-radius: 50%;
+        background: rgb(255, 212, 169);
+        margin-top: -16rem;
+        margin-left: 7rem;
+        border-bottom: 3px solid black;
+        border-width: 0 4px 8px 12px;
+        box-shadow: inset 18.5rem 3rem 0rem 0.2rem rgb(0 0 0 / 8%);
+      }
+      .levre {
+        position: absolute;
+        width: 22rem;
+        height: 12.5rem;
+        margin-left: -4.2rem;
+        margin-top: -2rem;
+        border-radius: 50%;
+        background: rgb(255, 212, 169);
+        border-bottom: 2px solid black;
+        box-shadow: 0rem 1rem 0.8rem -0.8rem black;
+        z-index: 1;
+      }
+      .oeil-gauche {
+        width: 4rem;
+        height: 8rem;
+        background: white;
+        position: absolute;
+        margin-left: -2.5rem;
+        margin-top: 6rem;
+        border-radius: 50%;
+        box-shadow: inset -3px 4px 12px lightslategray;
+      }
+      .oeil-droit {
+        position: absolute;
+        width: 4rem;
+        height: 8rem;
+        background: white;
+        margin-left: 10.5rem;
+        border-radius: 50%;
+        margin-top: 6rem;
+        z-index: 1;
+        box-shadow: inset -3px 4px 12px lightslategray;
+      }
+      .pupille-g {
+        height: 4rem;
+        width: 2rem;
+        background: black;
+        border-radius: 50%;
+        margin-left: -1rem;
+        margin-top: 10rem;
+        position: absolute;
+        animation: mouvePupilleG 2s ease infinite;
+      }
+      /* @keyframes mouvePupilleG {
+  0% {
+    margin-left: -1rem;
+  }
+  30% {
+    margin-left: -1.5rem;
+  }
+  50% {
+    margin-left: -2rem;
+  }
+  70% {
+    margin-left: -1.5rem;
+  }
+  100% {
+    margin-left: -1rem;
+  }
+} */
+      .pupille-d {
+        height: 4rem;
+        width: 2rem;
+        background: black;
+        border-radius: 50%;
+        margin-left: 11rem;
+        margin-top: 10rem;
+        position: absolute;
+        z-index: 1;
+        animation: mouvePupilleD 2s ease infinite;
+      }
+      /* @keyframes mouvePupilleD {
+  0% {
+    margin-left: 12rem;
+  }
+  30% {
+    margin-left: 11.5rem;
+  }
+  50% {
+    margin-left: 11rem;
+  }
+  70% {
+    margin-left: 11.5rem;
+  }
+  100% {
+    margin-left: 12rem;
+  }
+} */
+      .museauBout {
+        width: 4rem;
+        height: 11rem;
+        background: red;
+        position: absolute;
+        margin-top: 3.5rem;
+        margin-left: 2.8rem;
+        border-radius: 50%;
+        border-left: 2px solid black;
+        background: rgb(253, 236, 218);
+        box-shadow: inset 0.5rem -12.5rem 2rem 2.5rem rgb(255, 212, 169),
+          -0.8rem -0.2rem 1rem -0.7rem rgb(125, 91, 56);
+      }
+      .nez {
+        position: absolute;
+        width: 6rem;
+        height: 4rem;
+        margin-left: 4rem;
+        border-radius: 50%;
+        margin-top: 2rem;
+        z-index: 3;
+        box-shadow: inset 4px 4px 15px 0px #000000,
+          inset 1rem -1rem 1.5rem 1.5rem rgba(0, 0, 0, 0.96),
+          -0.8rem 0.3rem 1rem -0.3rem rgb(0 0 0 / 64%);
+        background: #99a2a4;
+      }
+      .intBouche {
+        height: 14rem;
+        width: 10rem;
+        background-color: black;
+        margin-top: 3rem;
+        position: absolute;
+        margin-left: 2.2rem;
+        border-radius: 0% 0% 50% 50%;
+      }
+      .langue1 {
+        width: 4rem;
+        height: 3rem;
+        background: palevioletred;
+        z-index: 3;
+        margin-top: 10rem;
+        margin-left: 1.8rem;
+        border-radius: 50% 50% 25% 45%;
+        position: absolute;
+      }
+      .langue2 {
+        width: 4rem;
+        height: 3rem;
+        background: palevioletred;
+        z-index: 3;
+        margin-top: 10rem;
+        margin-left: 4.3rem;
+        border-radius: 50% 50% 50% 45%;
+        position: absolute;
+      }
+      .langue3 {
+        width: 5rem;
+        height: 3rem;
+        background: palevioletred;
+        z-index: 3;
+        margin-top: 10.6rem;
+        margin-left: 2.8rem;
+        border-radius: 0% 0% 55% 55%;
+        position: absolute;
+      }
+      .langue4 {
+        width: 5rem;
+        height: 3rem;
+        background: palevioletred;
+        z-index: 3;
+        margin-left: 2.3rem;
+        margin-top: 10.6rem;
+        border-radius: 0% 0% 55% 55%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="cadre">
+        <div class="oreille droite"></div>
+        <div class="oreille gauche"></div>
+        <div class="visage">
+          <div class="contour-haut-visage">
+            <div class="contour oeil-g">
+              <div class="oeil-gauche"></div>
+              <div class="pupille-g"></div>
+            </div>
+            <div class="contour oeil-d">
+              <div class="oeil-droit"></div>
+              <div class="pupille-d"></div>
+            </div>
+            <div class="museau">
+              <div class="museauBout"></div>
+            </div>
+          </div>
+
+          <div class="bas-visage">
+            <div class="joue-g"></div>
+            <div class="joue-d"></div>
+            <div class="bouche">
+              <div class="intBouche">
+                <div class="langue1"></div>
+                <div class="langue2"></div>
+                <div class="langue3"></div>
+                <div class="langue4"></div>
+              </div>
+              <div class="nez">
+                <div class="reflet-nez"></div>
+              </div>
+              <div class="levre">
+                <div class="faussette-g"></div>
+                <div class="faussette-d"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
