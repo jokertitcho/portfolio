@@ -1,0 +1,8 @@
+{
+  "useSmtp": true,
+  "host": "smtp.protonmail.ch",
+  "port": 587,
+  "username": "williamlichter@protonmail.com",
+  "password": "Mikadoi8pajnrb",
+  "recipientEmail": "williamlichter@protonmail.com"
+}
